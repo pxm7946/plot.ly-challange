@@ -1,5 +1,5 @@
 function buildMetadata(sample) {
-  d3.json("..data/samples.json").then((data) => {
+  d3.json("samples.json").then((data) => {
     var metadata = data.metadata;
 
     // Filter the data for the object with the correct sample number
@@ -8,13 +8,13 @@ function buildMetadata(sample) {
     // Use d3 to select the panel with id of `#sample-metadata`
     var PANEL = d3.select("#sample-metadata");
     
-    PANEL.html('');
+    PANEL.html("");
 
     // Use `Object.entries` to add each key and value pair to the panel
     // Hint: Inside the loop, you will need to use d3 to append new
     // tags for each key-value in the metadata.
     Object.entries(result).forEach(([key, value]) => {
-      PANEL.append("h6").text('${key.toUpperCase()}: ${value}');
+      PANEL.append("h6").text(`${key.toUpperCase()}: ${value}`);
     });
 
   });
@@ -34,13 +34,13 @@ function buildCharts(sample) {
  
     // Build a Bubble Chart
     var bubbleLayout = {
-      title: "Bacteria Cultures PEr Sample",
+      title: "Bacteria Cultures Per Sample",
       margin: { t:0 },
       hovermode: "closest",
       xaxis: { title: "OTU ID" },
       margin: { t:30 }
     };
-    varbubbleData = [
+    var bubbleData = [
       {
         x: otu_ids,
         y: sample_values,
@@ -58,7 +58,7 @@ function buildCharts(sample) {
 
 
     // Build a Bar Chart
-    var yticks = otu_ids.slice(0,10).map(otuID => 'OTU ${otuID}').reverse();
+    var yticks = otu_ids.slice(0, 10).map(otuID => `OTU ${otuID}`).reverse();
     var barData = [
       {
         y: yticks, 
@@ -82,11 +82,12 @@ function buildCharts(sample) {
 
 function init() {
   // Save a reference to the select element
-  var selector = d3.select(#selDataset);
+  var selector = d3.select("#selDataset");
 
 
   // Use the list titled names to populate the select options
-  d3.json("..data/samples.json").then((data) => {
+  d3.json("samples.json").then((data) => {
+    var sampleNames = data.names;
 
     sampleNames.forEach((sample) => {
       selector
